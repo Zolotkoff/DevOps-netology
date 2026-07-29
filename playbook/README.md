@@ -1,12 +1,35 @@
-# Домашнее задание к занятию 1 «Введение в Ansible»
+# Playbook: Install Clickhouse & Vector
 
-## Основная часть
+## Описание
 
-1. Значение some_fact при запуске на test.yml: 12
-2. Файл с переменными: group_vars/all/examp.yml — изменено на "all default fact"
-3. Окружение: Docker-контейнеры centos:7 и ubuntu:latest
-4. Значения some_fact на prod.yml: centos7=el, ubuntu=deb
-5-6. После изменения: centos7="el default fact", ubuntu="deb default fact"
-7-8. Файлы group_vars/deb и group_vars/el зашифрованы ansible-vault с паролем netology. Запуск с --ask-vault-pass успешен.
-9. Плагин для control node: ansible.builtin.local
-10-11. Добавлена группа local с localhost (ansible_connection: local). Результат: centos7="el default fact", ubuntu="deb default fact", localhost="all default fact"
+Playbook устанавливает и настраивает ClickHouse и Vector на хосты с CentOS 7.
+
+### Play 1: Install Clickhouse
+- Скачивает RPM-пакеты ClickHouse указанной версии
+- Устанавливает clickhouse-common-static, clickhouse-client, clickhouse-server
+- Запускает сервис clickhouse-server
+- Создаёт базу данных logs
+
+### Play 2: Install Vector
+- Скачивает RPM-пакет Vector указанной версии
+- Устанавливает Vector
+- Деплоит конфигурацию через Jinja2-шаблон
+- Перезапускает сервис vector при изменении конфига
+
+## Параметры
+
+### Clickhouse (group_vars/clickhouse/vars.yml)
+- clickhouse_version — версия ClickHouse (по умолчанию 22.3.3.44)
+- clickhouse_packages — список пакетов для установки
+
+### Vector (group_vars/vector/vars.yml)
+- vector_version — версия Vector (по умолчанию 0.33.0)
+- vector_arch — архитектура (по умолчанию x86_64)
+
+## Теги
+
+Плейбук не использует теги.
+
+## Запуск
+
+ansible-playbook -i inventory/prod.yml site.yml

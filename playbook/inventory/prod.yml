@@ -1,13 +1,11 @@
 ---
-  el:
-    hosts:
-      centos7:
-        ansible_connection: docker
-  deb:
-    hosts:
-      ubuntu:
-        ansible_connection: docker
-  local:
-    hosts:
-      localhost:
-        ansible_connection: local
+clickhouse:
+  hosts:
+    clickhouse-01:
+      ansible_host: 158.160.103.46
+      ansible_user: centos
+vector:
+  hosts:
+    vector-01:
+      ansible_host: 158.160.103.46
+      ansible_user: centos

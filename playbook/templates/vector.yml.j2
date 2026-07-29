@@ -1,0 +1,13 @@
+sources:
+  demo_logs:
+    type: demo_logs
+    format: syslog
+    interval: 1
+
+sinks:
+  to_clickhouse:
+    type: console
+    inputs:
+      - demo_logs
+    encoding:
+      codec: json
