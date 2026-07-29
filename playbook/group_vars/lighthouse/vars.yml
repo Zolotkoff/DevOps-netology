@@ -1,0 +1,4 @@
+---
+lighthouse_vcs: https://github.com/VKCOM/lighthouse.git
+lighthouse_location_dir: /home/centos/lighthouse
+lighthouse_access_log_name: lighthouse

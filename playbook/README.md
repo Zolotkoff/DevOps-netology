@@ -1,8 +1,8 @@
-# Playbook: Install Clickhouse & Vector
+# Playbook: Install Clickhouse, Vector & Lighthouse
 
 ## Описание
 
-Playbook устанавливает и настраивает ClickHouse и Vector на хосты с CentOS 7.
+Playbook устанавливает и настраивает три сервиса на хосты с CentOS 7:
 
 ### Play 1: Install Clickhouse
 - Скачивает RPM-пакеты ClickHouse указанной версии
@@ -14,17 +14,28 @@ Playbook устанавливает и настраивает ClickHouse и Vect
 - Скачивает RPM-пакет Vector указанной версии
 - Устанавливает Vector
 - Деплоит конфигурацию через Jinja2-шаблон
-- Перезапускает сервис vector при изменении конфига
+- Перезапускает сервис при изменении конфига
+
+### Play 3: Install Lighthouse
+- Устанавливает EPEL, Nginx, Git
+- Клонирует репозиторий Lighthouse
+- Деплоит конфиг Nginx через Jinja2-шаблон
+- Запускает и включает Nginx
 
 ## Параметры
 
-### Clickhouse (group_vars/clickhouse/vars.yml)
-- clickhouse_version — версия ClickHouse (по умолчанию 22.3.3.44)
-- clickhouse_packages — список пакетов для установки
+### group_vars/clickhouse/vars.yml
+- clickhouse_version — версия ClickHouse (22.3.3.44)
+- clickhouse_packages — список пакетов
 
-### Vector (group_vars/vector/vars.yml)
-- vector_version — версия Vector (по умолчанию 0.33.0)
-- vector_arch — архитектура (по умолчанию x86_64)
+### group_vars/vector/vars.yml
+- vector_version — версия Vector (0.33.0)
+- vector_arch — архитектура (x86_64)
+
+### group_vars/lighthouse/vars.yml
+- lighthouse_vcs — URL репозитория LightHouse
+- lighthouse_location_dir — каталог установки
+- lighthouse_access_log_name — имя лога Nginx
 
 ## Теги
 

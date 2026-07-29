@@ -7,5 +7,10 @@ clickhouse:
 vector:
   hosts:
     vector-01:
-      ansible_host: 158.160.103.46
+      ansible_host: 111.88.251.175
+      ansible_user: centos
+lighthouse:
+  hosts:
+    lighthouse-01:
+      ansible_host: 111.88.247.131
       ansible_user: centos
