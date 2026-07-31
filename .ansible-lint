@@ -1,0 +1,5 @@
+---
+exclude_paths:
+  - playbook/roles/clickhouse
+skip_list:
+  - role-name
