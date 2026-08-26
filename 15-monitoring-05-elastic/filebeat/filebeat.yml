@@ -1,0 +1,33 @@
+filebeat.inputs:
+  - type: container
+    enabled: true
+    paths:
+      - /var/lib/docker/containers/*/*.log
+
+processors:
+  # обогащаем записи метаданными: имя контейнера, образ, лейблы
+  - add_docker_metadata:
+      host: "unix:///var/run/docker.sock"
+
+  # исключаем контейнеры самого стека, чтобы не гонять логи по кругу
+  - drop_event:
+      when:
+        or:
+          - equals: {container.name: "logstash"}
+          - equals: {container.name: "filebeat"}
+          - equals: {container.name: "kibana"}
+          - equals: {container.name: "es-hot"}
+          - equals: {container.name: "es-warm"}
+
+  # раскрываем json внутри поля message, если он там есть
+  - decode_json_fields:
+      fields: ["message"]
+      target: ""
+      overwrite_keys: true
+      max_depth: 1
+
+output.logstash:
+  hosts: ["logstash:5044"]
+
+logging.level: info
+logging.to_files: false
